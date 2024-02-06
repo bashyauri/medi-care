@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\User;
 
+use Exception;
 use Illuminate\Http\Request;
 use App\Services\User\AuthService;
+use App\Exceptions\CustomException;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Http\Requests\User\RegisterRequest;
 
 class RegisterController extends Controller
