@@ -10,8 +10,10 @@ use App\Enums\UserStatusEnum;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\CustomException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Notifications\UserRegisteredNotification;
 use App\Notifications\User\Auth\UserWelcomeNotification;
+use Laravel\Passport\Http\Controllers\AccessTokenController;
 
 /**
  * Class AuthService.
@@ -20,6 +22,14 @@ class AuthService
 {
     public function __construct(protected User $user)
     {
+    }
+    public function login(array $data)
+    {
+        if (auth()->attempt($data)) {
+            // Utils::addAuthUserActivity('User login', $data);
+            $user = User::find(Auth::user()->id);
+            return   $user->createToken(config('services.auth.token'))->accessToken;
+        }
     }
     public function register($data)
     {

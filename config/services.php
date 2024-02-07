@@ -33,6 +33,9 @@ return [
     'passport' => [
         'id' => env('PASSPORT_CLIENT_ID'),
         'secret' => env('PASSPORT_SECRET_KEY'),
+    ],
+    'auth' => [
+        'token' => env('token')
     ]
 
 

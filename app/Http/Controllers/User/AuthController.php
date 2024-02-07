@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\User\RegisterRequest;
+use App\Http\Requests\User\Auth\LoginRequest;
 use App\Http\Requests\User\Auth\VerifyEmailTokenRequest;
 
 
@@ -20,24 +21,24 @@ class AuthController extends Controller
     {
     }
 
-    // public function login(LoginRequest $request)
-    // {
-    //     try {
-    //         if ($token = $this->authService->login($request->validated())) {
-    //             return $this->successResponse('Login Success', [
-    //                 'token' => $token,
-    //                 'user' => new UserResource(auth()->user()),
-    //             ]);
-    //         } else {
-    //             return $this->errorResponse("Invalid Login", 401);
-    //         }
-    //     } catch (CustomException $ex) {
-    //         return $this->errorResponse($ex->getMessage(), 401);
-    //     } catch (Exception $ex) {
-    //         Log::error($ex->getMessage());
-    //         return $this->errorResponse("Something went wrong", 401);
-    //     }
-    // }
+    public function login(LoginRequest $request)
+    {
+        try {
+            if ($token = $this->authService->login($request->validated())) {
+                return $this->successResponse('Login Success', [
+                    'token' => $token,
+                    'user' => new UserResource(auth()->user()),
+                ]);
+            } else {
+                return $this->errorResponse("Invalid Login", 401);
+            }
+        } catch (CustomException $ex) {
+            return $this->errorResponse($ex->getMessage(), 401);
+        } catch (Exception $ex) {
+            Log::error($ex->getMessage());
+            return $this->errorResponse("Something went wrong", 401);
+        }
+    }
 
     public function register(RegisterRequest $request)
     {
