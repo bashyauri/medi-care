@@ -9,6 +9,7 @@ use App\Enums\TokenTypeEnum;
 use App\Enums\UserStatusEnum;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\CustomException;
+use Illuminate\Support\Facades\Log;
 use App\Notifications\UserRegisteredNotification;
 use App\Notifications\User\Auth\UserWelcomeNotification;
 
@@ -25,6 +26,7 @@ class AuthService
         $user = $this->user->create($data);
         $token = rand(111111, 999999);
         $token = Utils::setToken(TokenTypeEnum::EMAIL_VERIFICATION . $data['email'], 3600);
+        Log::info('Token generated and stored:', ['email' => $data['email'], 'token' => $token, 'expiryMinutes' => 3600]);
         $user->notify(new UserRegisteredNotification($token));
 
         // Utils::addUserActivity($user, 'User register', $data);
@@ -33,6 +35,7 @@ class AuthService
     public function verifyEmailToken($data)
     {
         $token = Utils::getCache(TokenTypeEnum::EMAIL_VERIFICATION . $data['email']);
+        Log::info('Token retrieved for verification:', ['email' => $data['email'], 'token' => $token]);
         if (!$token) {
             throw new CustomException("Token expired. Please request for a new password reset token");
         }

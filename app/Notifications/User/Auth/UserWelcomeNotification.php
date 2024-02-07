@@ -37,9 +37,12 @@ class UserWelcomeNotification extends Notification
         $url = "https://student-amnesty.wufpbk.edu.ng/";
 
         return (new MailMessage)
-            ->markdown('email.user-welcome-verification', [
-                'fullname' => $notifiable->first_name . ' ' . $notifiable->last_name
-            ]);
+            ->subject('Welcome to ' . config('app.name'))
+            ->line('Dear,' . $notifiable->first_name)
+            ->line('Your email address is now confirmed!')
+            ->line('Your email address is now confirmed!')
+            ->line('Welcome to the ' . config('app.name') . 'community')
+            ->line('To personalize your experience, please complete your profile by clicking this link:');
     }
 
     /**

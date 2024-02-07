@@ -1,4 +1,4 @@
-@subject Welcome to {{config('app.name')}}, {{ $user->name }}!
+@subject Welcome to {{config('app.name')}},!
 
 Hi {{ $fullname }},
 
