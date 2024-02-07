@@ -3,6 +3,9 @@
 namespace App\Services\User;
 
 use App\Models\User;
+use App\Enums\TokenTypeEnum;
+use App\Enums\UserStatusEnum;
+use App\User\Notifications\UserRegisteredNotification;
 use App\Utils\Utils;
 
 /**
@@ -16,7 +19,11 @@ class AuthService
     public function register($data)
     {
         $user = $this->user->create($data);
-        $data['token'] = $user->createToken($data['email'])->accessToken;
+        $token = rand(111111, 999999);
+        $token = Utils::setToken(TokenTypeEnum::EMAIL_VERIFICATION . $data['email'], 3600);
+        $user->notify(new UserRegisteredNotification($token));
+
+        Utils::addUserActivity($user, 'User register', $data);
         return $user;
     }
 }
