@@ -10,6 +10,7 @@ use App\Enums\UserStatusEnum;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\CustomException;
 use App\Notifications\UserRegisteredNotification;
+use App\Notifications\User\Auth\UserWelcomeNotification;
 
 /**
  * Class AuthService.
@@ -49,10 +50,10 @@ class AuthService
                 'status' => UserStatusEnum::VERIFIED
             ]);
 
-            Utils::addUserActivity($user, 'User verifies email address', $data);
+            // Utils::addUserActivity($user, 'User verifies email address', $data);
 
             Utils::deleteCache(TokenTypeEnum::EMAIL_VERIFICATION . $data['email']);
-            // $user->notify(new UserWelcomeNotification());
+            $user->notify(new UserWelcomeNotification());
         });
     }
 }
