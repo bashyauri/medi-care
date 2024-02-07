@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\User\RegisterRequest;
+use App\Http\Requests\User\Auth\VerifyEmailTokenRequest;
 
 
 class AuthController extends Controller
@@ -51,18 +52,18 @@ class AuthController extends Controller
         }
     }
 
-    // public function verifyEmailToken(VerifyEmailTokenRequest $request)
-    // {
-    //     try {
-    //         $this->authService->verifyEmailToken($request->validated());
-    //         return $this->successResponse('Email verified successfully');
-    //     } catch (CustomException $ex) {
-    //         return $this->errorResponse($ex->getMessage(), 401);
-    //     } catch (Exception $ex) {
-    //         Log::error($ex->getMessage());
-    //         return $this->errorResponse("Something went wrong", 401);
-    //     }
-    // }
+    public function verifyEmailToken(VerifyEmailTokenRequest $request)
+    {
+        try {
+            $this->authService->verifyEmailToken($request->validated());
+            return $this->successResponse('Email verified successfully');
+        } catch (CustomException $ex) {
+            return $this->errorResponse($ex->getMessage(), 401);
+        } catch (Exception $ex) {
+            Log::error($ex->getMessage());
+            return $this->errorResponse("Something went wrong", 401);
+        }
+    }
 
     // public function requestEmailVerificationToken(SendResetTokenRequest $request)
     // {
