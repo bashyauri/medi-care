@@ -32,7 +32,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'email.unique' => 'An account with this email address already exist.',
-            'phone.unique' => 'An account with this phone number already exist.',
+
         ];
     }
 }

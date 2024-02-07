@@ -3,6 +3,7 @@
 namespace App\Services\User;
 
 use App\Models\User;
+use App\Utils\Utils;
 
 /**
  * Class AuthService.
@@ -15,7 +16,7 @@ class AuthService
     public function register($data)
     {
         $user = $this->user->create($data);
-        $data['token'] = $user->createToken(rand(111111, 999999))->accessToken;
+        $data['token'] = $user->createToken($data['email'])->accessToken;
         return $user;
     }
 }
