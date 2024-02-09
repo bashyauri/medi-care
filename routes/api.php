@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\User\AuthController;
-use App\Http\Controllers\User\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\AuthController;
+use App\Http\Controllers\User\PasswordController;
+use App\Http\Controllers\User\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('login', [AuthController::class, 'login'])->name('login');
+Route::post('forgot-password', [PasswordController::class, 'forgotPassword'])->name('forgot-password');
+Route::post('reset-password', [PasswordController::class, 'resetPassword'])->name('reset-password');
 
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('email/verify', [AuthController::class, 'verifyEmailToken'])->name('verify.email');
