@@ -69,4 +69,8 @@ class AuthService
             $user->notify(new UserWelcomeNotification());
         });
     }
+    public function logout($request)
+    {
+        return $request->user()->tokens()->delete();
+    }
 }

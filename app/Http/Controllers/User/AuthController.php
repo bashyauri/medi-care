@@ -81,8 +81,14 @@ class AuthController extends Controller
     // }
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete();
-
-        return response()->json(['message' => 'Successfully logged out']);
+        try {
+            $this->authService->logout($request);
+            return $this->successResponse('Successfully logged out');
+        } catch (CustomException $ex) {
+            return $this->errorResponse($ex->getMessage(), 401);
+        } catch (Exception $ex) {
+            Log::error($ex->getMessage());
+            return $this->errorResponse("Something went wrong", 401);
+        }
     }
 }
