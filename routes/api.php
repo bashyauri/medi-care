@@ -20,6 +20,7 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('email/verify', [AuthController::class, 'verifyEmailToken'])->name('verify.email');
+Route::post('email/request-token', [AuthController::class, 'requestEmailVerificationToken'])->name('email.request-token');
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

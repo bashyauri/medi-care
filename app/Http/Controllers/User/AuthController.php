@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\User\RegisterRequest;
 use App\Http\Requests\User\Auth\LoginRequest;
+use App\Http\Requests\User\Auth\SendResetTokenRequest;
 use App\Http\Requests\User\Auth\VerifyEmailTokenRequest;
 
 
@@ -67,18 +68,18 @@ class AuthController extends Controller
         }
     }
 
-    // public function requestEmailVerificationToken(SendResetTokenRequest $request)
-    // {
-    //     try {
-    //         $this->authService->requestEmailVerificationToken($request->validated());
-    //         return $this->successResponse('Email verification token sent successfully');
-    //     } catch (CustomException $ex) {
-    //         return $this->errorResponse($ex->getMessage(), 401);
-    //     } catch (Exception $ex) {
-    //         Log::error($ex->getMessage());
-    //         return $this->errorResponse("Something went wrong", 401);
-    //     }
-    // }
+    public function requestEmailVerificationToken(SendResetTokenRequest $request)
+    {
+        try {
+            $this->authService->requestEmailVerificationToken($request->validated());
+            return $this->successResponse('Email verification token sent successfully');
+        } catch (CustomException $ex) {
+            return $this->errorResponse($ex->getMessage(), 401);
+        } catch (Exception $ex) {
+            Log::error($ex->getMessage());
+            return $this->errorResponse("Something went wrong", 401);
+        }
+    }
     public function logout(Request $request)
     {
         try {

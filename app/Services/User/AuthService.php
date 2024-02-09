@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\UserRegisteredNotification;
 use App\Notifications\User\Auth\UserWelcomeNotification;
+use App\Notifications\User\Auth\UserRegisterNotification;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
 
 /**
@@ -68,6 +69,18 @@ class AuthService
             Utils::deleteCache(TokenTypeEnum::EMAIL_VERIFICATION . $data['email']);
             $user->notify(new UserWelcomeNotification());
         });
+    }
+    public function requestEmailVerificationToken(array $data): void
+    {
+        $user = $this->user->firstWhere(['email' => $data['email']]);
+        if (!$user->status != UserStatusEnum::REGISTERED) {
+            throw new CustomException("User email address already verified");
+        }
+        $token = Utils::setToken(TokenTypeEnum::EMAIL_VERIFICATION . $data['email'], 600);
+        Utils::addUserActivity($user, 'User requests email verification token', $data);
+
+        $user->notify(new UserRegisterNotification($token));
+        //
     }
     public function logout($request)
     {
