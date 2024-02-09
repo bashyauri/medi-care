@@ -32,30 +32,29 @@ class PasswordService
         $user->notify(new ResetPasswordNotification($token));
     }
 
-    // public function resetPassword(array $data)
-    // {
-    //     $token = Utils::getCache(TokenTypeEnum::PASSWORD_RESET.$data['email']);
-    //     if (!$token) {
-    //         throw new CustomException("Token expired. Please request for a new password reset token");
-    //     }
+    public function resetPassword(array $data)
+    {
+        $token = Utils::getCache(TokenTypeEnum::PASSWORD_RESET . $data['email']);
+        if (!$token) {
+            throw new CustomException("Token expired. Please request for a new password reset token");
+        }
 
-    //     if ($token !== $data['token']) {
-    //         throw new CustomException("Invalid token");
-    //     }
+        if ($token !== $data['token']) {
+            throw new CustomException("Invalid token");
+        }
 
-    //     DB::transaction(function () use($data)
-    //     {
-    //         $user = $this->userService->getUserBy(['email' => $data['email']]);
-    //         $user->update([
-    //             'password' => Hash::make($data['password'])
-    //         ]);
+        DB::transaction(function () use ($data) {
+            $user = $this->userService->getUserBy(['email' => $data['email']]);
+            $user->update([
+                'password' => Hash::make($data['password'])
+            ]);
 
-    //         Utils::addUserActivity($user,'Reset Password Using Reset Token', $data);
+            // Utils::addUserActivity($user, 'Reset Password Using Reset Token', $data);
 
-    //         Utils::deleteCache(TokenTypeEnum::PASSWORD_RESET.$data['email']);
-    //         $user->notify(new ResetPasswordNotification("Notification Successful")); //PasswordResetNotification
-    //     });
-    // }
+            Utils::deleteCache(TokenTypeEnum::PASSWORD_RESET . $data['email']);
+            $user->notify(new ResetPasswordNotification("Notification Successful")); //PasswordResetNotification
+        });
+    }
     // public function updateUserPassword(array $data) : void
     // {
     //     DB::transaction(function () use($data)

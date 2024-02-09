@@ -31,18 +31,18 @@ class PasswordController extends Controller
         }
     }
 
-    // public function resetPassword(ResetTokenRequest $request): Response
-    // {
-    //     try {
-    //         $this->passwordService->resetPassword($request->validated());
-    //         return $this->successResponse('Password updated Successfully');
-    //     } catch (CustomException $e) {
-    //         return $this->errorResponse($e->getMessage(), 401);
-    //     } catch (Exception $e) {
-    //         Log::alert($e->getMessage());
-    //         return $this->errorResponse("Something went wrong");
-    //     }
-    // }
+    public function resetPassword(ResetTokenRequest $request): Response
+    {
+        try {
+            $this->passwordService->resetPassword($request->validated());
+            return $this->successResponse('Password updated Successfully');
+        } catch (CustomException $e) {
+            return $this->errorResponse($e->getMessage(), 401);
+        } catch (Exception $e) {
+            Log::alert($e->getMessage());
+            return $this->errorResponse("Something went wrong");
+        }
+    }
     // public function updateUserPassword(UpdatePasswordRequest $request): Response
     // {
     //     try {
