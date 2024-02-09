@@ -44,6 +44,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+            'driver' => 'passport', // Or your chosen auth driver (e.g., sanctum)
+            'provider' => 'users',
+        ],
     ],
 
     /*

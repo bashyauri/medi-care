@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use Exception;
+use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Services\User\AuthService;
 use App\Exceptions\CustomException;
@@ -78,7 +79,10 @@ class AuthController extends Controller
     //         return $this->errorResponse("Something went wrong", 401);
     //     }
     // }
+    public function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
 
-
-
+        return response()->json(['message' => 'Successfully logged out']);
+    }
 }
