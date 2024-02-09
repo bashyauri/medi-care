@@ -55,21 +55,18 @@ class PasswordService
             $user->notify(new ResetPasswordNotification("Notification Successful")); //PasswordResetNotification
         });
     }
-    // public function updateUserPassword(array $data) : void
-    // {
-    //     DB::transaction(function () use($data)
-    //     {
-    //         $user = auth()->user();
+    public function updateUserPassword(array $data): void
+    {
+        DB::transaction(function () use ($data) {
+            $user = auth()->user();
 
-    //         if (Hash::check($data['current_password'], $user->password)) {
-    //             $user->update([ 'password' => $data['new_password']]);
-    //         }
-    //         else{
-    //             throw new CustomException("You entered an invalid old password");
-    //         }
+            if (Hash::check($data['current_password'], $user->password)) {
+                $user->update(['password' => Hash::make($data['new_password'])]);
+            } else {
+                throw new CustomException("You entered an invalid old password");
+            }
 
-    //         Utils::addAuthUserActivity('Password Updated', $data);
-    //     });
-
-    // }
+            // Utils::addAuthUserActivity('Password Updated', $data);
+        });
+    }
 }
