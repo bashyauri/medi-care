@@ -32,6 +32,16 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
+            // Move vendor and admin routes to API middleware
+            Route::middleware(['api', 'auth:api', 'role:admin'])
+                ->prefix('api/admin')
+                ->as('admin.')
+                ->group(base_path('routes/admin.php'));
+
+            Route::middleware(['api', 'auth:api', 'role:vendor'])
+                ->prefix('api/vendor')
+                ->as('vendor.')
+                ->group(base_path('routes/vendor.php'));
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));

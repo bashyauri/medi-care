@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\VendorController;
 use Illuminate\Http\Request;
@@ -32,11 +33,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:api')->group(function () {
+    Route::get('dashboard', [ProfileController::class, 'index'])->name('dashboard');
     Route::patch('/update-password', [PasswordController::class, 'updateUserPassword']);
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
-
-    // Admin Routes
-    Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    // Vendor Routes
-    Route::get('vendor/dashboard', [VendorController::class, 'index'])->name('vendor.dashboard');
 });
