@@ -8,6 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Traits\ResponseTrait;
 
+use Illuminate\Validation\Rule;
 
 class BaseRequest extends FormRequest
 {
