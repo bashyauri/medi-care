@@ -2,10 +2,13 @@
 
 namespace App\Services\User;
 
-
-use App\Traits\FileTrait;
 use App\Utils\Utils;
+use App\Traits\FileTrait;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
+
 
 /**
  * Class ProfileService.
@@ -49,16 +52,25 @@ class ProfileService extends UserService
     //     );
     // }
 
-    // public function updateUserImage($data)
-    // {
-    //     $previousImage = auth()->user()->customerInformation->image;
-    //     $filename = $this->uploadFile('user/image', $data['image']);
+    public function updateUserImage($data)
+    {
 
-    //     auth()->user()->customerInformation()->update([
-    //         'image' => $filename,
-    //     ]);
-    //     if ($previousImage) {
-    //         $this->deleteFile($previousImage);
-    //     }
-    // }
+
+
+        if (File::exists(storage_path(auth()->user()->image))) {
+            File::delete(storage_path(auth()->user()->image));
+
+
+            $image = $data['image'];
+            $imageName = Str::random() . '.' . $image->getClientOriginalExtension();
+            $image->move(storage_path('uploads'), $imageName);
+
+            $path = "/uploads/" . $imageName;
+            Log::info($path);
+
+            auth()->user()->update([
+                'image' => $path,
+            ]);
+        }
+    }
 }

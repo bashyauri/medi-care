@@ -34,7 +34,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->group(function () {
     Route::get('dashboard', [ProfileController::class, 'index'])->name('dashboard');
-    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/update', [ProfileController::class, 'updateUserProfile'])->name('profile.update');
+    Route::post('/profile/upload-image', [ProfileController::class, 'updateUserImage'])->name('profile.upload-image');
     Route::patch('/update-password', [PasswordController::class, 'updateUserPassword']);
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });

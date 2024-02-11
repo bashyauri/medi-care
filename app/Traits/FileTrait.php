@@ -9,15 +9,17 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 trait FileTrait
 {
-    public function uploadFile($folder, $file)
+    public function uploadFile($folder, $file, $disk = 'local')
     {
-        if (App::environment('local')) {
-            return url(Storage::url(Storage::putFile("public/$folder", $file, 'public')));
-        } else {
-            return $file->storeOnCloudinary($folder)->getPublicId();
-        }
-    }
+        $filename = Str::random() . '.' . $file->getClientOriginalExtension();
+        $fullPath = "$folder/$filename";
 
+        if (Storage::disk($disk)->putFile($fullPath, $file)) {
+            return Storage::disk($disk)->path($fullPath); // Returns relative path
+        }
+
+        return null; // Or handle upload failure as needed
+    }
 
     public function loadFile($publicId)
     {

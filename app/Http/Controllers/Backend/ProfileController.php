@@ -6,12 +6,17 @@ namespace App\Http\Controllers\Backend;
 
 use Exception;
 use Illuminate\Http\Request;
+use App\Traits\ResponseTrait;
+use App\Exceptions\CustomException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\Profile\UpdateProfileRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Services\User\ProfileService;
-use App\Traits\ResponseTrait;
+
+
+use App\Http\Requests\User\Profile\UpdateProfileRequest;
+use App\Http\Requests\User\Profile\UpdateUserImageRequest;
+use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
@@ -26,27 +31,10 @@ class ProfileController extends Controller
         ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function updateUserProfile(UpdateProfileRequest $request)
     {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateProfileRequest $request)
-    {
 
         try {
             $this->profileService->updateUserProfile($request->validated());
@@ -54,35 +42,20 @@ class ProfileController extends Controller
         } catch (Exception $ex) {
             return $this->errorResponse($ex);
         }
-        // $user = Auth::user();
-
-        // if ($request->hasFile('image')) {
-        //     if (File::exists(public_path($user->image))) {
-        //         File::delete(public_path($user->image));
-        //     }
-
-        //     $image = $request->image;
-        //     $imageName = rand() . '_' . $image->getClientOriginalName();
-        //     $image->move(public_path('uploads'), $imageName);
-
-        //     $path = "/uploads/" . $imageName;
-
-        //     $user->image = $path;
-        // }
-
-        // $user->name = $request->name;
-        // $user->email = $request->email;
-        // $user->save();
-
-        // toastr()->success('Profile Updated Successfully!');
-        // return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function updateUserImage(UpdateUserImageRequest $request)
     {
-        //
+
+
+        try {
+
+            $this->profileService->updateUserImage($request->validated());
+            return $this->successResponse("Profile image successfully updated");
+        } catch (CustomException $ex) {
+            return $this->errorResponse($ex->getMessage());
+        } catch (Exception $ex) {
+            return $this->errorResponse("Something went wrong " . $ex->getMessage());
+        }
     }
 }
