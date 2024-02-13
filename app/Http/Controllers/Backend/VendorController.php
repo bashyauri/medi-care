@@ -31,7 +31,7 @@ class VendorController extends Controller
      */
     public function show(string $id)
     {
-        //
+        
     }
 
     /**

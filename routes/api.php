@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\Backend\AdminController;
-use App\Http\Controllers\Backend\ProfileController;
-use App\Http\Controllers\Backend\UserController;
-use App\Http\Controllers\Backend\VendorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\AuthController;
+use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\User\PasswordController;
 use App\Http\Controllers\User\RegisterController;
+use App\Http\Controllers\Backend\VendorController;
+use App\Http\Controllers\Backend\ProfileController;
+use App\Http\Controllers\Frontend\UserAddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:api')->group(function () {
+    Route::apiResource('address', UserAddressController::class);
     Route::get('dashboard', [ProfileController::class, 'index'])->name('dashboard');
     Route::put('/profile/update', [ProfileController::class, 'updateUserProfile'])->name('profile.update');
     Route::post('/profile/upload-image', [ProfileController::class, 'updateUserImage'])->name('profile.upload-image');

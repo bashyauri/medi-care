@@ -1,16 +1,20 @@
-FROM richarvey/nginx-php-fpm:8.1
+FROM richarvey/nginx-php-fpm:1.7.2
 
-ENV APP_URL=https://med-care.onrender.com
-ENV APP_ENV=production
-ENV DB_HOST=database.render.com
-ENV DB_DATABASE=root
-ENV DB_USERNAME=your_database_username
-ENV DB_PASSWORD=
+COPY . .
 
-COPY . /var/www/html
+# Image config
+ENV SKIP_COMPOSER 1
+ENV WEBROOT /var/www/html/public
+ENV PHP_ERRORS_STDERR 1
+ENV RUN_SCRIPTS 1
+ENV REAL_IP_HEADER 1
 
-RUN docker-php-ext-install mysqli pdo_mysql
+# Laravel config
+ENV APP_ENV production
+ENV APP_DEBUG false
+ENV LOG_CHANNEL stderr
 
-EXPOSE 80
+# Allow composer to run as root
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
-CMD ["php-fpm", "-F"]
+CMD ["/start.sh"]
