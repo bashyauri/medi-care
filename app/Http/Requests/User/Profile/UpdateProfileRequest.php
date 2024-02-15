@@ -13,7 +13,7 @@ class UpdateProfileRequest extends BaseRequest
         return [
             'first_name' => ['required', 'string'],
             'last_name' => ['required', 'string'],
-            'phone' => ['required', 'string', 'unique:users,phone,except:' . auth()->id()],
+            'gender' => ['required', 'string'],
             'email' => ['required', 'email:rfc,dns', Rule::unique('users', 'email')->ignore(auth()->id(), 'id')],
             'date_of_birth' => ['required', 'string'],
         ];

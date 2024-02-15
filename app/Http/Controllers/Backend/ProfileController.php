@@ -38,7 +38,7 @@ class ProfileController extends Controller
 
         try {
             $this->profileService->updateUserProfile($request->validated());
-            return $this->successResponse("Profile successfully updated");
+            return $this->successResponse("Profile successfully updated", [], 204);
         } catch (Exception $ex) {
             return $this->errorResponse($ex);
         }
