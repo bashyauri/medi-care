@@ -28,11 +28,11 @@ class ProfileService extends UserService
 
     public function updateUser($data)
     {
-        auth()->user()->update([
+        return auth()->user()->update([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
-            'phone' => $data['phone'],
+            'gender' => $data['gender'],
             'date_of_birth' => $data['date_of_birth'],
         ]);
     }
