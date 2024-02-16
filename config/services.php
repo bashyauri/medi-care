@@ -36,7 +36,9 @@ return [
     ],
     'auth' => [
         'token' => env('token')
+    ],
+    'geonames' => [
+        'username' => env('GEONAME_USERNAME'),
     ]
-
 
 ];
