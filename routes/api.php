@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LgaController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\User\AuthController;
@@ -28,6 +29,7 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('forgot-password', [PasswordController::class, 'forgotPassword'])->name('forgot-password');
 Route::post('reset-password', [PasswordController::class, 'resetPassword'])->name('reset-password');
 Route::get('countries/{country_id}/states', [StateController::class, 'fetchCountryStates'])->name('fetch-country-states');
+Route::get('states/{state_id}/lgas', [LgaController::class, 'fetchStateLgas'])->name('fetch-state-lgas');
 Route::get('countries', [CountryController::class, 'fetchAllCountries'])->name('fetch-countries');
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('email/verify', [AuthController::class, 'verifyEmailToken'])->name('verify.email');
@@ -35,7 +37,6 @@ Route::post('email/request-token', [AuthController::class, 'requestEmailVerifica
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 Route::middleware('auth:api')->group(function () {
     Route::apiResource('address', UserAddressController::class);
     Route::get('dashboard', [ProfileController::class, 'index'])->name('dashboard');
