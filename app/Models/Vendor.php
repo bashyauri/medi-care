@@ -14,4 +14,8 @@ class Vendor extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function vendorAddress()
+    {
+        return $this->hasOne(VendorAddress::class);
+    }
 }
