@@ -15,12 +15,13 @@ class VendorService
     {
         $imagePath = $this->uploadImage($request, 'banner', 'vendor/uploads');
 
-        return  auth()->user()->vendor()->create(
+        return  auth()->user()->vendor()->updateOrCreate(
+            // Search criteria (replace with appropriate column(s))
+            ['user_id' => auth()->user()->id],
             [
-                'banner' => $imagePath,
+                'banner' => $imagePath ?? auth()->user()->vendor->banner,
                 'name' => $data['name'],
                 'description' => $data['description'],
-
             ]
         );
     }

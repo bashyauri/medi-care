@@ -2,8 +2,9 @@
 
 namespace App\Services\User;
 
-use App\Models\CustomerInformation;
 use App\Models\User;
+use App\Models\Vendor;
+use App\Models\CustomerInformation;
 
 /**
  * Class UserService.
