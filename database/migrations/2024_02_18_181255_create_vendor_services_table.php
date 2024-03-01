@@ -15,6 +15,16 @@ return new class extends Migration
         Schema::create('vendor_services', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Vendor::class);
+            $table->integer('service_type_id');
+            $table->string('license_number');
+            $table->string('license_issueing_body');
+            $table->string('board_certification')->nullable();
+            $table->boolean('telehealth_enabled')->nullable();
+            $table->string('document');
+            $table->date('expiry_date');
+            $table->string('status')->nullable();
+            $table->text('notes')->nullable();
+
             $table->timestamps();
         });
     }
