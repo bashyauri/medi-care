@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Frontend\UserAddressController;
 use App\Http\Controllers\Frontend\VendorAddressController;
 use App\Http\Controllers\Frontend\VendorRequestController;
+use App\Http\Controllers\Frontend\VendorServicesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::middleware('auth:api')->group(function () {
+    Route::apiResource('/vendor-service', VendorServicesController::class);
     Route::apiResource('/vendor-address', VendorAddressController::class);
     Route::post('/vendor-request', [VendorRequestController::class, 'store'])->name('vendor-request');
     Route::apiResource('address', UserAddressController::class);

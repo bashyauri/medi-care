@@ -18,4 +18,8 @@ class Vendor extends Model
     {
         return $this->hasOne(VendorAddress::class);
     }
+    public function vendorServices()
+    {
+        return $this->hasMany(VendorService::class);
+    }
 }

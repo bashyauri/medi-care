@@ -9,13 +9,13 @@ use App\Exceptions\CustomException;
 use App\Http\Controllers\Controller;
 
 use App\Http\Resources\Vendor\VendorResource;
-use App\Services\Vendor\VendorService as VendorVendorService;
+use App\Services\Vendor\VendorService;
 use App\Http\Requests\Vendor\UserVendorRequest as VendorUserVendorRequest;
 
 class VendorRequestController extends Controller
 {
     use ResponseTrait;
-    public function __construct(protected VendorVendorService $vendorService)
+    public function __construct(protected VendorService $vendorService)
     {
     }
     public function store(VendorUserVendorRequest $request)

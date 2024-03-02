@@ -2,7 +2,7 @@
 
 namespace App\Services\Vendor;
 
-use App\Models\Vendor;
+
 use App\Traits\ImageUploadTrait;
 
 /**
