@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user_addresses', function (Blueprint $table) {
-            $table->renameColumn('city', 'lga');
+        Schema::create('license_issuing_bodies', function (Blueprint $table) {
+            $table->id();
+            $table->string('license_body_name');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('user_addresses', function (Blueprint $table) {
-            $table->renameColumn('lga', 'city');
-        });
+        Schema::dropIfExists('license_issuing_bodies');
     }
 };

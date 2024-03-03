@@ -16,6 +16,7 @@ use App\Http\Controllers\Frontend\UserAddressController;
 use App\Http\Controllers\Frontend\VendorAddressController;
 use App\Http\Controllers\Frontend\VendorRequestController;
 use App\Http\Controllers\Frontend\VendorServicesController;
+use App\Http\Controllers\LicenseIssuingBodyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,7 @@ use App\Http\Controllers\Frontend\VendorServicesController;
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('forgot-password', [PasswordController::class, 'forgotPassword'])->name('forgot-password');
 Route::post('reset-password', [PasswordController::class, 'resetPassword'])->name('reset-password');
+Route::get('/license-issuing-bodies', [LicenseIssuingBodyController::class, 'fetchAllLicenseIssuingBodies'])->name('fetch-license-bodies');
 Route::get('countries/{country_id}/states', [StateController::class, 'fetchCountryStates'])->name('fetch-country-states');
 Route::get('states/{state_id}/lgas', [LgaController::class, 'fetchStateLgas'])->name('fetch-state-lgas');
 Route::get('countries', [CountryController::class, 'fetchAllCountries'])->name('fetch-countries');
