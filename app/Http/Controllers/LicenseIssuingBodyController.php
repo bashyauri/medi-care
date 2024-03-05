@@ -15,7 +15,7 @@ class LicenseIssuingBodyController extends Controller
     {
         try {
             $countries = $service->fetchAllIssuingBodies();
-            return  $this->successResponse('Licensed Issuing Bodies fetched successfully', LicenseIssuingBodyResource::collection($countries));
+            return  $this->successResponse('License Issuing Bodies fetched successfully', LicenseIssuingBodyResource::collection($countries));
         } catch (Exception $e) {
             Log::alert($e->getMessage());
             return $this->errorResponse("Something went wrong");
