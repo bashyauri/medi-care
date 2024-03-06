@@ -15,4 +15,8 @@ class VendorService extends Model
         'document',
         'expiry_date'
     ];
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
 }
