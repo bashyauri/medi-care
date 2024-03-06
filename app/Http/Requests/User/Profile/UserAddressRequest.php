@@ -3,7 +3,7 @@
 namespace App\Http\Requests\User\Profile;
 
 use App\Http\Requests\BaseRequest;
-use Illuminate\Foundation\Http\FormRequest;
+
 
 class UserAddressRequest extends BaseRequest
 {
