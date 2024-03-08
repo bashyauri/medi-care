@@ -2,8 +2,12 @@
 
 namespace App\Services\Vendor;
 
-use App\Models\VendorService;
+use App\Models\User;
+
+use App\Notifications\Admin\VendorServiceDeletedNotification;
 use App\Traits\ImageUploadTrait;
+use Illuminate\Support\Facades\DB;
+
 
 /**
  * Class VendorServicesService.
@@ -36,7 +40,18 @@ class VendorServicesService
 
     public function destroy($id)
     {
-        $this->vendor()->vendorServices()->where('id', $id)->delete();
+        $admins = User::where('role', 'admin')->get();
+        $vendorService = $this->vendor()->vendorServices()->where('id', $id)->first();
+        DB::transaction(function () use ($id, $admins, $vendorService) {
+
+            foreach ($admins as $admin) {
+                $admin->notify(new VendorServiceDeletedNotification($this->vendor()->name));
+            }
+            $documentPath = $vendorService->document;
+
+            $this->vendor()->vendorServices()->where('id', $id)->delete();
+            $this->deleteImage($documentPath);
+        });
     }
 
     private function vendor()

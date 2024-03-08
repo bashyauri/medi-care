@@ -3,9 +3,12 @@
 namespace App\Observers;
 
 use App\Models\User;
+use App\Models\Vendor;
 use App\Models\VendorService;
 use App\Notifications\Admin\VendorServiceCreatedNotification;
+use App\Notifications\Admin\VendorServiceUpdatedNotification;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
+use Illuminate\Support\Facades\Log;
 
 class VendorServiceObserver implements ShouldHandleEventsAfterCommit
 {
@@ -25,7 +28,12 @@ class VendorServiceObserver implements ShouldHandleEventsAfterCommit
      */
     public function updated(VendorService $vendorService): void
     {
-        //
+        $vendor = Vendor::Find('id', $vendorService->vendor_id)->name;
+        $admins = User::where('role', 'admin')->get();
+        dd($vendor);
+        foreach ($admins as $admin) {
+            $admin->notify(new VendorServiceCreatedNotification($vendor));
+        }
     }
 
     /**
@@ -33,7 +41,12 @@ class VendorServiceObserver implements ShouldHandleEventsAfterCommit
      */
     public function deleted(VendorService $vendorService): void
     {
-        //
+        $vendor = auth()->user()->vendor->name;
+
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+            $admin->notify(new VendorServiceUpdatedNotification($vendor));
+        }
     }
 
     /**
