@@ -34,14 +34,16 @@ class AuthService
     }
     public function register($data)
     {
-        $user = $this->user->create($data);
-        $token = rand(111111, 999999);
-        $token = Utils::setToken(TokenTypeEnum::EMAIL_VERIFICATION . $data['email'], 3600);
-        Log::info('Token generated and stored:', ['email' => $data['email'], 'token' => $token, 'expiryMinutes' => 3600]);
-        $user->notify(new UserRegisteredNotification($token));
+        DB::transaction(function () use ($data) {
+            $user = $this->user->create($data);
+            $token = rand(111111, 999999);
+            $token = Utils::setToken(TokenTypeEnum::EMAIL_VERIFICATION . $data['email'], 3600);
+            Log::info('Token generated and stored:', ['email' => $data['email'], 'token' => $token, 'expiryMinutes' => 3600]);
+            $user->notify(new UserRegisteredNotification($token));
 
-        // Utils::addUserActivity($user, 'User register', $data);
-        return $user;
+            // Utils::addUserActivity($user, 'User register', $data);
+            return $user;
+        });
     }
     public function verifyEmailToken($data)
     {

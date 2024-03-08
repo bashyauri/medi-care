@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Notifications\User\Auth;
+namespace App\Notifications\Admin;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UserWelcomeNotification extends Notification
+class VendorServiceCreatedNotification extends Notification
 {
     use Queueable;
 
@@ -16,7 +16,6 @@ class UserWelcomeNotification extends Notification
      */
     public function __construct()
     {
-        //
     }
 
     /**
@@ -34,17 +33,12 @@ class UserWelcomeNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $url = "https://student-amnesty.wufpbk.edu.ng/";
-
         return (new MailMessage)
-            ->subject('Welcome to ' . config('app.name'))
+            ->subject('User Service request Notification')
             ->line('Dear,' . $notifiable->first_name)
-            ->line('Your email address is now confirmed!')
-
-            ->line('Welcome to the ' . config('app.name') . 'community')
-            ->line('To personalize your experience, please complete your profile by clicking this link:');
+            ->line('A notification has been sent to you by a user')
+            ->line("Please login to your admin area and respond");
     }
-
     /**
      * Get the array representation of the notification.
      *

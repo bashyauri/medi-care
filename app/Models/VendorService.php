@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Observers\VendorServiceObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 
 class VendorService extends Model
 {
