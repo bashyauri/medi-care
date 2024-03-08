@@ -5,7 +5,8 @@
 namespace App\Traits;
 
 use Illuminate\Http\Request;
-use File;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 trait ImageUploadTrait
 {
@@ -69,6 +70,7 @@ trait ImageUploadTrait
     /** Handle Delte File */
     public function deleteImage(string $path)
     {
+        Log::alert($path);
         if (File::exists(public_path($path))) {
             File::delete(public_path($path));
         }
