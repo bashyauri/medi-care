@@ -7,15 +7,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class VendorServiceCreatedNotification extends Notification
+class VendorServiceDeletedNotification extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct(protected $vendor)
     {
+        //
     }
 
     /**
@@ -34,11 +35,12 @@ class VendorServiceCreatedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('User Service request Notification')
+            ->subject('Vendor Service deleted Notification')
             ->line('Dear,' . $notifiable->first_name)
-            ->line('A notification has been sent to you by a user.')
+            ->line($this->vendor . ' Vendor has deleted a service.')
             ->line("Please login to your admin area and respond.");
     }
+
     /**
      * Get the array representation of the notification.
      *

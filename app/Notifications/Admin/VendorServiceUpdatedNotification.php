@@ -2,20 +2,24 @@
 
 namespace App\Notifications\Admin;
 
+use App\Models\User;
+use App\Models\Vendor;
+use App\Models\VendorService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class VendorServiceCreatedNotification extends Notification
+class VendorServiceUpdatedNotification extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct(protected $vendor)
     {
+        //
     }
 
     /**
@@ -34,11 +38,12 @@ class VendorServiceCreatedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('User Service request Notification')
+            ->subject('Vendor Service update Notification')
             ->line('Dear,' . $notifiable->first_name)
-            ->line('A notification has been sent to you by a user.')
+            ->line($this->vendor . ' Vendor has updated his service.')
             ->line("Please login to your admin area and respond.");
     }
+
     /**
      * Get the array representation of the notification.
      *
