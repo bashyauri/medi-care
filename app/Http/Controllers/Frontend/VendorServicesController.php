@@ -33,6 +33,7 @@ class VendorServicesController extends Controller
         $vendor = auth()->user()->vendor;
 
         $services = $vendor->vendorServices;
+
         if ($services->isEmpty()) {
             return  $this->successResponse("No Vendor Service found", 204);
         }
@@ -115,7 +116,7 @@ class VendorServicesController extends Controller
     {
         try {
             $this->vendorService->destroy($id);
-            return $this->successResponse("Content deleted", [], 204);
+            return $this->successResponse("Content deleted", 200);
         } catch (CustomException $ex) {
             return $this->errorResponse($ex->getMessage());
         } catch (Exception $ex) {
