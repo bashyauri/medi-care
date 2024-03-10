@@ -18,6 +18,7 @@ use App\Http\Controllers\Frontend\VendorRequestController;
 use App\Http\Controllers\Frontend\VendorServicesController;
 use App\Http\Controllers\LicenseIssuingBodyController;
 use App\Http\Controllers\ServicesController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,12 +40,22 @@ Route::get('countries/{country_id}/states', [StateController::class, 'fetchCount
 Route::get('states/{state_id}/lgas', [LgaController::class, 'fetchStateLgas'])->name('fetch-state-lgas');
 Route::get('countries', [CountryController::class, 'fetchAllCountries'])->name('fetch-countries');
 Route::post('register', [AuthController::class, 'register'])->name('register');
-Route::post('email/verify', [AuthController::class, 'verifyEmailToken'])->name('verify.email');
-Route::post('email/request-token', [AuthController::class, 'requestEmailVerificationToken'])->name('email.request-token');
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return response()->json(['message' => 'Email verified successfully!'], 200);
+})->middleware(['auth:api', 'signed'])->name('verification.verify');
+// Route::post('email/verify', [AuthController::class, 'verifyEmailToken'])->name('verify.email');
+// Route::post('email/request-token', [AuthController::class, 'requestEmailVerificationToken'])->name('email.request-token');
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::middleware('auth:api')->group(function () {
+Route::middleware(['auth:api'])->group(function () {
     Route::apiResource('/vendor-service', VendorServicesController::class);
     Route::apiResource('/vendor-address', VendorAddressController::class);
     Route::post('/vendor-request', [VendorRequestController::class, 'store'])->name('vendor-request');

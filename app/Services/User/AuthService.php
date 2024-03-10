@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Exceptions\CustomException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 use App\Notifications\UserRegisteredNotification;
 use App\Notifications\User\Auth\UserWelcomeNotification;
 use App\Notifications\User\Auth\UserRegisterNotification;
@@ -38,8 +39,8 @@ class AuthService
             $user = $this->user->create($data);
             $token = rand(111111, 999999);
             $token = Utils::setToken(TokenTypeEnum::EMAIL_VERIFICATION . $data['email'], 3600);
-            Log::info('Token generated and stored:', ['email' => $data['email'], 'token' => $token, 'expiryMinutes' => 3600]);
-            $user->notify(new UserRegisteredNotification($token));
+            event(new Registered($user));
+            // $user->notify(new UserRegisteredNotification($token));
 
             // Utils::addUserActivity($user, 'User register', $data);
             return $user;
